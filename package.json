@@ -1,0 +1,56 @@
+{
+  "name": "@tigerdata/tiger-memory-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server to supply a simple memory system",
+  "license": "UNLICENSED",
+  "author": "TigerData",
+  "homepage": "https://tigerdata.com",
+  "type": "module",
+  "bin": {
+    "tiger-memory-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js",
+    "prepare": "npm run build",
+    "watch": "tsx watch src/index.ts http",
+    "watch:stdio": "tsx watch src/index.ts stdio",
+    "start": "node dist/index.js http",
+    "start:stdio": "node dist/index.js stdio",
+    "inspector": "npx @modelcontextprotocol/inspector",
+    "migrate": "migrate"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.1",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/api-logs": "^0.203.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.62.0",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.203.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.203.0",
+    "@opentelemetry/instrumentation-http": "^0.203.0",
+    "@opentelemetry/resources": "^2.0.1",
+    "@opentelemetry/sdk-logs": "^0.203.0",
+    "@opentelemetry/sdk-metrics": "^2.0.1",
+    "@opentelemetry/sdk-node": "^0.203.0",
+    "@opentelemetry/sdk-trace-base": "^2.0.1",
+    "@opentelemetry/sdk-trace-node": "^2.0.1",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "migrate": "^2.1.0",
+    "pg": "^8.16.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.16.4",
+    "@types/pg": "^8.15.4",
+    "ai": "^5.0.17",
+    "prettier": "^3.6.2",
+    "shx": "^0.4.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
