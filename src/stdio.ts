@@ -2,9 +2,11 @@
 import { stdioServerFactory } from './shared/boilerplate/src/stdio.js';
 import { apiFactories } from './apis/index.js';
 import { context, serverInfo } from './serverInfo.js';
+import { additionalSetup } from './resources.js';
 
 stdioServerFactory({
   ...serverInfo,
   context,
   apiFactories,
+  additionalSetup,
 });
