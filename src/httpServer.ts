@@ -4,6 +4,7 @@ import { apiFactories } from './apis/index.js';
 import { context, serverInfo } from './serverInfo.js';
 import { log } from './shared/boilerplate/src/logger.js';
 import { runMigrations } from './migrate.js';
+import { additionalSetup } from './resources.js';
 
 try {
   log.info('Running database migrations...');
@@ -18,4 +19,5 @@ export const { registerCleanupFn } = httpServerFactory({
   ...serverInfo,
   context,
   apiFactories,
+  additionalSetup,
 });
