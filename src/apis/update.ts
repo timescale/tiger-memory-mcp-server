@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ApiFactory } from '../shared/boilerplate/src/types.js';
-import { ServerContext, zKey } from '../types.js';
+import { ServerContext, zKey, zSource } from '../types.js';
 import { StatusError } from '../shared/boilerplate/src/StatusError.js';
 
 const inputSchema = {
@@ -10,6 +10,7 @@ const inputSchema = {
     .describe('The id of a specific memory to replace.'),
   key: zKey,
   content: z.string().min(1).describe('The new content to remember.'),
+  source: zSource,
 } as const;
 
 const outputSchema = {
@@ -31,15 +32,15 @@ export const updateFactory: ApiFactory<
     inputSchema,
     outputSchema,
   },
-  fn: async ({ id, key, content }) => {
+  fn: async ({ id, key, content, source }) => {
     const result = await pgPool.query<{ id: string }>(
       /* sql */ `
 UPDATE ${schema}.memory
-SET content = $1, updated_at = NOW()
-WHERE id = $2 AND key = $3 AND deleted_at IS NULL
+SET content = $1, source = $2, updated_at = NOW()
+WHERE id = $3 AND key = $4 AND deleted_at IS NULL
 RETURNING id
 `,
-      [content, id, key],
+      [content, source || null, id, key],
     );
 
     if (result.rows[0]?.id == null) {

@@ -6,9 +6,18 @@ export interface ServerContext extends Record<string, unknown> {
   schema: string;
 }
 
+export const zSource = z
+  .string()
+  .min(0)
+  .nullable()
+  .describe(
+    'The source or origin of this memory. A deep URI to the origin of the fact is preferred (e.g., a specific URL, file path, or reference).',
+  );
+
 export const zMemory = z.object({
   id: z.string().describe('The unique identifier of this memory.'),
   content: z.string().describe('The content of this memory.'),
+  source: zSource,
   created_at: z
     .date()
     .describe('The date and time when this memory was created.'),
