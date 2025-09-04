@@ -28,9 +28,9 @@ export const zMemory = z.object({
 
 export type Memory = z.infer<typeof zMemory>;
 
-export const zKey = z
+export const zScope = z
   .string()
   .min(1)
   .describe(
-    'A unique identifier for the target set of memories. Can be any combination of user and application ids, as needed for scoping and personalization.',
+    'A unique identifier for the target set of memories. Can be any combination of user, application, contextual ids, as needed for scoping and personalization.',
   );
