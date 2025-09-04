@@ -11,12 +11,12 @@ const outputSchema = {
   key: zKey,
 } as const;
 
-export const getMemoriesFactory: ApiFactory<
+export const recallFactory: ApiFactory<
   ServerContext,
   typeof inputSchema,
   typeof outputSchema
 > = ({ pgPool, schema }) => ({
-  name: 'getMemories',
+  name: 'recall',
   method: 'get',
   route: ['/memory', '/memory/:key'],
   config: {
