@@ -29,7 +29,7 @@ export const getMemoriesFactory: ApiFactory<
   fn: async ({ key }) => {
     const result = await pgPool.query<Memory>(
       /* sql */ `
-SELECT id, content, created_at, updated_at
+SELECT id, content, source, created_at, updated_at
 FROM ${schema}.memory
 WHERE key = $1 AND deleted_at IS NULL
 `,

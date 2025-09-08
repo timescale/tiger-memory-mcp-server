@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import { ApiFactory } from '../shared/boilerplate/src/types.js';
-import { ServerContext, zKey } from '../types.js';
+import { ServerContext, zKey, zSource } from '../types.js';
 
 const inputSchema = {
   key: zKey,
   content: z.string().min(1).describe('The content to remember.'),
+  source: zSource,
 } as const;
 
 const outputSchema = {
@@ -26,14 +27,14 @@ export const rememberFactory: ApiFactory<
     inputSchema,
     outputSchema,
   },
-  fn: async ({ key, content }) => {
+  fn: async ({ key, content, source }) => {
     const result = await pgPool.query<{ id: string }>(
       /* sql */ `
-INSERT INTO ${schema}.memory (key, content)
-VALUES ($1, $2)
+INSERT INTO ${schema}.memory (key, content, source)
+VALUES ($1, $2, $3)
 RETURNING id
 `,
-      [key, content],
+      [key, content, source || null],
     );
 
     return {
