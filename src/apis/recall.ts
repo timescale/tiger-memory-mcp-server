@@ -1,44 +1,44 @@
 import { z } from 'zod';
 import { ApiFactory } from '../shared/boilerplate/src/types.js';
-import { Memory, ServerContext, zKey, zMemory } from '../types.js';
+import { Memory, ServerContext, zScope, zMemory } from '../types.js';
 
 const inputSchema = {
-  key: zKey,
+  scope: zScope,
 } as const;
 
 const outputSchema = {
   memories: z.array(zMemory).describe('The list of memories found.'),
-  key: zKey,
+  scope: zScope,
 } as const;
 
-export const getMemoriesFactory: ApiFactory<
+export const recallFactory: ApiFactory<
   ServerContext,
   typeof inputSchema,
   typeof outputSchema
 > = ({ pgPool, schema }) => ({
-  name: 'getMemories',
+  name: 'recall',
   method: 'get',
-  route: ['/memory', '/memory/:key'],
+  route: ['/memory', '/memory/:scope'],
   config: {
-    title: 'Retrieve memories by key',
+    title: 'Retrieve memories by scope',
     description:
-      'This endpoint retrieves memories from the database, using the provided key as the scope.',
+      'This endpoint retrieves memories from the database, using the provided scope.',
     inputSchema,
     outputSchema,
   },
-  fn: async ({ key }) => {
+  fn: async ({ scope }) => {
     const result = await pgPool.query<Memory>(
       /* sql */ `
 SELECT id, content, source, created_at, updated_at
 FROM ${schema}.memory
-WHERE key = $1 AND deleted_at IS NULL
+WHERE scope = $1 AND deleted_at IS NULL
 `,
-      [key],
+      [scope],
     );
 
     return {
       memories: result.rows,
-      key,
+      scope,
     };
   },
 });

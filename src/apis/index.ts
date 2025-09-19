@@ -1,5 +1,5 @@
 import { forgetFactory } from './forget.js';
-import { getMemoriesFactory } from './getMemories.js';
+import { recallFactory } from './recall.js';
 import { rememberFactory } from './remember.js';
 import { updateFactory } from './update.js';
 
@@ -7,5 +7,5 @@ export const apiFactories = [
   rememberFactory,
   updateFactory,
   forgetFactory,
-  getMemoriesFactory,
+  recallFactory,
 ] as const;

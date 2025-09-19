@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ApiFactory } from '../shared/boilerplate/src/types.js';
-import { ServerContext, zKey } from '../types.js';
+import { ServerContext, zScope } from '../types.js';
 import { StatusError } from '../shared/boilerplate/src/StatusError.js';
 
 const inputSchema = {
@@ -8,7 +8,7 @@ const inputSchema = {
     .string()
     .min(1)
     .describe('The id of a specific memory to delete.'),
-  key: zKey,
+  scope: zScope,
 } as const;
 
 const outputSchema = {
@@ -30,15 +30,15 @@ export const forgetFactory: ApiFactory<
     inputSchema,
     outputSchema,
   },
-  fn: async ({ id, key }) => {
+  fn: async ({ id, scope }) => {
     const result = await pgPool.query<{ id: string }>(
       /* sql */ `
 UPDATE ${schema}.memory
 SET deleted_at = NOW(), updated_at = NOW()
-WHERE id = $1 AND key = $2 AND deleted_at IS NULL
+WHERE id = $1 AND scope = $2 AND deleted_at IS NULL
 RETURNING id
 `,
-      [id, key],
+      [id, scope],
     );
 
     if (result.rows[0]?.id == null) {
