@@ -23,6 +23,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
+            docker.io/tigerdata/tiger-memory-mcp
             docker.io/timescale/tiger-memory-mcp
             ghcr.io/timescale/tiger-memory-mcp
           tags: |
