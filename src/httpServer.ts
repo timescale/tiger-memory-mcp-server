@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-import { httpServerFactory } from './shared/boilerplate/src/httpServer.js';
+import { httpServerFactory, log } from '@tigerdata/mcp-boilerplate';
 import { apiFactories } from './apis/index.js';
 import { context, serverInfo } from './serverInfo.js';
-import { log } from './shared/boilerplate/src/logger.js';
 import { runMigrations } from './migrate.js';
 import { additionalSetup } from './resources.js';
 

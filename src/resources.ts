@@ -1,8 +1,7 @@
 import {
-  McpServer,
   ResourceTemplate,
 } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { AdditionalSetupArgs } from './shared/boilerplate/src/mcpServer.js';
+import { AdditionalSetupArgs } from '@tigerdata/mcp-boilerplate';
 import { Memory, ServerContext } from './types.js';
 
 export const additionalSetup = ({
