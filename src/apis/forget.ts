@@ -1,7 +1,6 @@
+import { ApiFactory, StatusError } from '@tigerdata/mcp-boilerplate';
 import { z } from 'zod';
-import { ApiFactory } from '../shared/boilerplate/src/types.js';
 import { ServerContext, zScope } from '../types.js';
-import { StatusError } from '../shared/boilerplate/src/StatusError.js';
 
 const inputSchema = {
   id: z.coerce
