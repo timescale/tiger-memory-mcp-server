@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.15.1",
-    "@tigerdata/mcp-boilerplate": "^0.1.8",
+    "@tigerdata/mcp-boilerplate": "^0.2.0",
     "dotenv": "^17.2.0",
     "migrate": "^2.1.0",
     "pg": "^8.16.3",
