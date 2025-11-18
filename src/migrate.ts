@@ -1,4 +1,4 @@
-import migrate from 'migrate';
+import migrate, { FileStore, MigrationSet } from 'migrate';
 import { Client } from 'pg';
 import { createHash } from 'crypto';
 import { schema } from './config.js';
@@ -9,11 +9,15 @@ const hash = createHash('sha256')
   .digest('hex');
 const MIGRATION_ADVISORY_LOCK_ID = parseInt(hash.substring(0, 15), 16);
 
-const createStateStore = () => {
+interface Store extends FileStore {
+  close(): Promise<void>;
+}
+
+const createStateStore = (): Store => {
   let client: Client;
 
   return {
-    async load(callback: (err: Error | null, set?: any) => void) {
+    async load(callback: Parameters<FileStore['load']>[0]): Promise<void> {
       try {
         client = new Client();
         await client.connect();
@@ -46,7 +50,10 @@ const createStateStore = () => {
       }
     },
 
-    async save(set: any, callback: (err: Error | null) => void) {
+    async save(
+      set: MigrationSet,
+      callback: (err: Error | null) => void,
+    ): Promise<void> {
       try {
         // Insert the entire set as JSONB
         await client.query(
@@ -60,7 +67,7 @@ const createStateStore = () => {
       }
     },
 
-    async close() {
+    async close(): Promise<void> {
       if (client) {
         // Release advisory lock
         await client.query(/* sql */ `SELECT pg_advisory_unlock($1)`, [

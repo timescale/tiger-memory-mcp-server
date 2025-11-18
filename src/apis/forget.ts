@@ -1,4 +1,8 @@
-import { ApiFactory, StatusError } from '@tigerdata/mcp-boilerplate';
+import {
+  ApiFactory,
+  InferSchema,
+  StatusError,
+} from '@tigerdata/mcp-boilerplate';
 import { z } from 'zod';
 import { ServerContext, zScope } from '../types.js';
 
@@ -29,7 +33,7 @@ export const forgetFactory: ApiFactory<
     inputSchema,
     outputSchema,
   },
-  fn: async ({ id, scope }) => {
+  fn: async ({ id, scope }): Promise<InferSchema<typeof outputSchema>> => {
     const result = await pgPool.query<{ id: string }>(
       /* sql */ `
 UPDATE ${schema}.memory

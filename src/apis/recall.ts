@@ -1,4 +1,4 @@
-import { ApiFactory } from '@tigerdata/mcp-boilerplate';
+import { ApiFactory, InferSchema } from '@tigerdata/mcp-boilerplate';
 import { z } from 'zod';
 import { Memory, ServerContext, zScope, zMemory } from '../types.js';
 
@@ -26,7 +26,7 @@ export const recallFactory: ApiFactory<
     inputSchema,
     outputSchema,
   },
-  fn: async ({ scope }) => {
+  fn: async ({ scope }): Promise<InferSchema<typeof outputSchema>> => {
     const result = await pgPool.query<Memory>(
       /* sql */ `
 SELECT id, content, source, created_at, updated_at

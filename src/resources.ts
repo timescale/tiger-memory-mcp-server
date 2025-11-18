@@ -1,13 +1,11 @@
-import {
-  ResourceTemplate,
-} from '@modelcontextprotocol/sdk/server/mcp.js';
+import { ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { AdditionalSetupArgs } from '@tigerdata/mcp-boilerplate';
 import { Memory, ServerContext } from './types.js';
 
 export const additionalSetup = ({
   context: { pgPool, schema },
   server,
-}: AdditionalSetupArgs<ServerContext>) => {
+}: AdditionalSetupArgs<ServerContext>): void => {
   server.registerResource(
     'memories',
     new ResourceTemplate('memory://{scope}', { list: undefined }),
