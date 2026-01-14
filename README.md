@@ -2,6 +2,61 @@
 
 A simple memory system designed to allow LLMs to store and retrieve information. This provides some focused tools to LLMs via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
 
+## Erste Schritte (Getting Started - Deutsch)
+
+Ein einfaches Speichersystem, das es LLMs ermöglicht, Informationen zu speichern und abzurufen. Dies stellt LLMs über das [Model Context Protocol](https://modelcontextprotocol.io/introduction) spezialisierte Werkzeuge zur Verfügung.
+
+### Installation
+
+```bash
+git clone git@github.com:timescale/tiger-memory-mcp-server.git
+cd tiger-memory-mcp-server
+npm install
+```
+
+### Konfiguration
+
+Erstellen Sie eine `.env` Datei basierend auf der `.env.sample` Vorlage:
+
+```bash
+cp .env.sample .env
+```
+
+Bearbeiten Sie die `.env` Datei und tragen Sie Ihre Datenbankverbindungsdaten ein.
+
+### Projekt bauen
+
+```bash
+npm run build
+```
+
+### Server starten
+
+```bash
+npm run start
+```
+
+### Entwicklungsmodus
+
+Für die Entwicklung mit automatischem Neuladen bei Änderungen:
+
+```bash
+npm run watch
+```
+
+### Testen mit MCP Inspector
+
+Der MCP Inspector ist sehr hilfreich zum Testen:
+
+```bash
+npm run inspector
+```
+
+Verwenden Sie folgende Einstellungen:
+- Transport Type: `STDIO`
+- Command: `node`
+- Arguments: `dist/index.js`
+
 ## API
 
 All methods are exposed as MCP tools and REST API endpoints.
