@@ -106,3 +106,11 @@ kubectl -n savannah-system create secret generic tiger-memory-mcp-server-tailsca
 ```
 
 Update `./chart/values/dev.yaml` with the output.
+
+## Deprecation Notice
+
+**This project is deprecated and no longer maintained.**
+
+This MCP server has been superseded by newer memory solutions. We recommend migrating to alternative memory systems that better suit your needs.
+
+For questions or migration assistance, please open an issue in the repository.
