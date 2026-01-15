@@ -106,3 +106,5 @@ kubectl -n savannah-system create secret generic tiger-memory-mcp-server-tailsca
 ```
 
 Update `./chart/values/dev.yaml` with the output.
+
+foo
