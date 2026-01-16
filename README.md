@@ -1,46 +1,46 @@
 # Tiger Memory MCP Server
 
-A simple memory system designed to allow LLMs to store and retrieve information. This provides some focused tools to LLMs via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
+Un semplice sistema di memoria progettato per consentire agli LLM di memorizzare e recuperare informazioni. Questo fornisce alcuni strumenti mirati agli LLM tramite il [Model Context Protocol](https://modelcontextprotocol.io/introduction).
 
 ## API
 
-All methods are exposed as MCP tools and REST API endpoints.
+Tutti i metodi sono esposti come strumenti MCP ed endpoint REST API.
 
-## Development
+## Sviluppo
 
-Cloning and running the server locally.
+Clonazione ed esecuzione del server in locale.
 
 ```bash
 git clone git@github.com:timescale/tiger-memory-mcp-server.git
 ```
 
-### Building
+### Build
 
-Run `npm i` to install dependencies and build the project. Use `npm run watch` to rebuild on changes.
+Eseguire `npm i` per installare le dipendenze e compilare il progetto. Utilizzare `npm run watch` per ricompilare ad ogni modifica.
 
-Create a `.env` file based on the `.env.sample` file.
+Creare un file `.env` basato sul file `.env.sample`.
 
 ```bash
 cp .env.sample .env
 ```
 
-### Testing
+### Test
 
-The MCP Inspector is very handy.
+L'MCP Inspector è molto utile.
 
 ```bash
 npm run inspector
 ```
 
-| Field          | Value           |
+| Campo          | Valore          |
 | -------------- | --------------- |
 | Transport Type | `STDIO`         |
 | Command        | `node`          |
 | Arguments      | `dist/index.js` |
 
-#### Testing in Claude Desktop
+#### Test in Claude Desktop
 
-Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config.json` to add an entry like the following, making sure to use the absolute path to your local `tiger-memory-mcp-server` project, and real database credentials.
+Creare/modificare il file `~/Library/Application Support/Claude/claude_desktop_config.json` per aggiungere una voce come la seguente, assicurandosi di utilizzare il percorso assoluto del progetto locale `tiger-memory-mcp-server` e le credenziali reali del database.
 
 ```json
 {
@@ -63,15 +63,15 @@ Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config
 }
 ```
 
-## Deployment
+## Distribuzione
 
-We use a Helm chart to deploy to Kubernetes. See the `chart/` directory for details.
+Utilizziamo un Helm chart per la distribuzione su Kubernetes. Consultare la directory `chart/` per i dettagli.
 
-The service is accessible to other services in the cluster via the DNS name `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
+Il servizio è accessibile ad altri servizi nel cluster tramite il nome DNS `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
 
-### Database setup
+### Configurazione del database
 
-Creating the database user:
+Creazione dell'utente del database:
 
 ```sql
 CREATE USER tiger_memory WITH PASSWORD 'secret';
@@ -80,7 +80,7 @@ GRANT CREATE ON DATABASE tsdb TO tiger_memory;
 
 ### Secrets
 
-Run the following to create the necessary sealed secrets. Be sure to fill in the correct values.
+Eseguire quanto segue per creare i sealed secrets necessari. Assicurarsi di inserire i valori corretti.
 
 ```bash
 kubectl -n savannah-system create secret generic tiger-memory-mcp-server-database \
@@ -105,4 +105,4 @@ kubectl -n savannah-system create secret generic tiger-memory-mcp-server-tailsca
   -o yaml | kubeseal -o yaml
 ```
 
-Update `./chart/values/dev.yaml` with the output.
+Aggiornare `./chart/values/dev.yaml` con l'output.
