@@ -1,36 +1,23 @@
 # Tiger Memory MCP Server
 
-A simple memory system designed to allow LLMs to store and retrieve information. This provides some focused tools to LLMs via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
+A memory system for LLMs to store and retrieve information via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
 
-## API
-
-All methods are exposed as MCP tools and REST API endpoints.
-
-## Development
-
-Cloning and running the server locally.
+## Quick Start
 
 ```bash
 git clone git@github.com:timescale/tiger-memory-mcp-server.git
-```
-
-### Building
-
-Run `npm i` to install dependencies and build the project. Use `npm run watch` to rebuild on changes.
-
-Create a `.env` file based on the `.env.sample` file.
-
-```bash
+npm i
 cp .env.sample .env
+npm run build
 ```
 
-### Testing
+## Development
 
-The MCP Inspector is very handy.
+- Build: `npm run build`
+- Watch: `npm run watch`
+- Test: `npm run inspector`
 
-```bash
-npm run inspector
-```
+### Testing with MCP Inspector
 
 | Field          | Value           |
 | -------------- | --------------- |
@@ -38,19 +25,16 @@ npm run inspector
 | Command        | `node`          |
 | Arguments      | `dist/index.js` |
 
-#### Testing in Claude Desktop
+### Testing in Claude Desktop
 
-Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config.json` to add an entry like the following, making sure to use the absolute path to your local `tiger-memory-mcp-server` project, and real database credentials.
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "tiger-memory": {
       "command": "node",
-      "args": [
-        "/absolute/path/to/tiger-memory-mcp-server/dist/index.js",
-        "stdio"
-      ],
+      "args": ["/absolute/path/to/tiger-memory-mcp-server/dist/index.js", "stdio"],
       "env": {
         "PGHOST": "x.y.tsdb.cloud.timescale.com",
         "PGDATABASE": "tsdb",
@@ -65,13 +49,11 @@ Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config
 
 ## Deployment
 
-We use a Helm chart to deploy to Kubernetes. See the `chart/` directory for details.
+Deployed via Helm to Kubernetes. See `chart/` directory.
 
-The service is accessible to other services in the cluster via the DNS name `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
+Service DNS: `tiger-memory-mcp-server.savannah-system.svc.cluster.local`
 
-### Database setup
-
-Creating the database user:
+### Database Setup
 
 ```sql
 CREATE USER tiger_memory WITH PASSWORD 'secret';
@@ -80,29 +62,4 @@ GRANT CREATE ON DATABASE tsdb TO tiger_memory;
 
 ### Secrets
 
-Run the following to create the necessary sealed secrets. Be sure to fill in the correct values.
-
-```bash
-kubectl -n savannah-system create secret generic tiger-memory-mcp-server-database \
-  --dry-run=client \
-  --from-literal=user="tiger_memory" \
-  --from-literal=password="secret" \
-  --from-literal=database="tsdb" \
-  --from-literal=host="x.y.tsdb.cloud.timescale.com" \
-  --from-literal=port="32467" \
-  -o yaml | kubeseal -o yaml
-
-# https://logfire-us.pydantic.dev/tigerdata/tigerdata/settings/write-tokens
-kubectl -n savannah-system create secret generic tiger-memory-mcp-server-logfire \
-  --dry-run=client \
-  --from-literal=token="pylf_v1_us_" \
-  -o yaml | kubeseal -o yaml
-
-# https://login.tailscale.com/admin/settings/keys
-kubectl -n savannah-system create secret generic tiger-memory-mcp-server-tailscale \
-  --dry-run=client \
-  --from-literal=authkey="tskey-auth-" \
-  -o yaml | kubeseal -o yaml
-```
-
-Update `./chart/values/dev.yaml` with the output.
+Create sealed secrets for database, logfire, and tailscale credentials. See original README for commands.
