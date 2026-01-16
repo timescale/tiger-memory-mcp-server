@@ -1,46 +1,46 @@
-# Tiger Memory MCP Server
+# Tiger Memory MCP Сервер
 
-A simple memory system designed to allow LLMs to store and retrieve information. This provides some focused tools to LLMs via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
+Проста система пам'яті, розроблена для того, щоб дозволити LLM зберігати та отримувати інформацію. Це надає деякі цільові інструменти для LLM через [Model Context Protocol](https://modelcontextprotocol.io/introduction).
 
 ## API
 
-All methods are exposed as MCP tools and REST API endpoints.
+Усі методи доступні як інструменти MCP та REST API endpoints.
 
-## Development
+## Розробка
 
-Cloning and running the server locally.
+Клонування та запуск сервера локально.
 
 ```bash
 git clone git@github.com:timescale/tiger-memory-mcp-server.git
 ```
 
-### Building
+### Збірка
 
-Run `npm i` to install dependencies and build the project. Use `npm run watch` to rebuild on changes.
+Виконайте `npm i` для встановлення залежностей та збірки проєкту. Використовуйте `npm run watch` для перезбірки при змінах.
 
-Create a `.env` file based on the `.env.sample` file.
+Створіть файл `.env` на основі файлу `.env.sample`.
 
 ```bash
 cp .env.sample .env
 ```
 
-### Testing
+### Тестування
 
-The MCP Inspector is very handy.
+MCP Inspector дуже зручний.
 
 ```bash
 npm run inspector
 ```
 
-| Field          | Value           |
+| Поле           | Значення        |
 | -------------- | --------------- |
-| Transport Type | `STDIO`         |
-| Command        | `node`          |
-| Arguments      | `dist/index.js` |
+| Тип транспорту | `STDIO`         |
+| Команда        | `node`          |
+| Аргументи      | `dist/index.js` |
 
-#### Testing in Claude Desktop
+#### Тестування в Claude Desktop
 
-Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config.json` to add an entry like the following, making sure to use the absolute path to your local `tiger-memory-mcp-server` project, and real database credentials.
+Створіть/відредагуйте файл `~/Library/Application Support/Claude/claude_desktop_config.json`, щоб додати запис наступного вигляду, переконавшись, що використовуєте абсолютний шлях до вашого локального проєкту `tiger-memory-mcp-server` та справжні облікові дані бази даних.
 
 ```json
 {
@@ -63,24 +63,24 @@ Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config
 }
 ```
 
-## Deployment
+## Розгортання
 
-We use a Helm chart to deploy to Kubernetes. See the `chart/` directory for details.
+Ми використовуємо Helm chart для розгортання в Kubernetes. Дивіться деталі в директорії `chart/`.
 
-The service is accessible to other services in the cluster via the DNS name `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
+Сервіс доступний для інших сервісів в кластері через DNS ім'я `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
 
-### Database setup
+### Налаштування бази даних
 
-Creating the database user:
+Створення користувача бази даних:
 
 ```sql
 CREATE USER tiger_memory WITH PASSWORD 'secret';
 GRANT CREATE ON DATABASE tsdb TO tiger_memory;
 ```
 
-### Secrets
+### Секрети
 
-Run the following to create the necessary sealed secrets. Be sure to fill in the correct values.
+Виконайте наступне для створення необхідних sealed secrets. Обов'язково заповніть правильні значення.
 
 ```bash
 kubectl -n savannah-system create secret generic tiger-memory-mcp-server-database \
@@ -105,4 +105,4 @@ kubectl -n savannah-system create secret generic tiger-memory-mcp-server-tailsca
   -o yaml | kubeseal -o yaml
 ```
 
-Update `./chart/values/dev.yaml` with the output.
+Оновіть `./chart/values/dev.yaml` результатом виконання.
