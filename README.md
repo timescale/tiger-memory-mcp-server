@@ -2,6 +2,18 @@
 
 A simple memory system designed to allow LLMs to store and retrieve information. This provides some focused tools to LLMs via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
 
+## Poem
+
+In Tiger Memory's quiet den we keep,
+Soft echoes of intent that never sleep.
+Through MCP the tales arrive and stay,
+Remembered, recalled, then set away.
+
+We stitch our notes in Timescale's steady thread,
+With migrations marking every path we tread.
+When tools and APIs converse in tune,
+The server hums beneath a patient moon.
+
 ## API
 
 All methods are exposed as MCP tools and REST API endpoints.
