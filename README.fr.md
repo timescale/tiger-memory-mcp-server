@@ -8,7 +8,7 @@ Toutes les méthodes sont exposées en tant qu'outils MCP et points de terminais
 
 ## Développement
 
-Clonage et exécution du serveur localement.
+Pour cloner et exécuter le serveur localement :
 
 ```bash
 git clone git@github.com:timescale/tiger-memory-mcp-server.git
