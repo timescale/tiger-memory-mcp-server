@@ -1,46 +1,46 @@
-# Tiger Memory MCP Server
+# Serveur MCP Tiger Memory
 
-A simple memory system designed to allow LLMs to store and retrieve information. This provides some focused tools to LLMs via the [Model Context Protocol](https://modelcontextprotocol.io/introduction).
+Un système de mémoire simple conçu pour permettre aux LLM de stocker et récupérer des informations. Cela fournit des outils ciblés aux LLM via le [Model Context Protocol](https://modelcontextprotocol.io/introduction).
 
 ## API
 
-All methods are exposed as MCP tools and REST API endpoints.
+Toutes les méthodes sont exposées en tant qu'outils MCP et points de terminaison d'API REST.
 
-## Development
+## Développement
 
-Cloning and running the server locally.
+Cloner et exécuter le serveur localement.
 
 ```bash
 git clone git@github.com:timescale/tiger-memory-mcp-server.git
 ```
 
-### Building
+### Compilation
 
-Run `npm i` to install dependencies and build the project. Use `npm run watch` to rebuild on changes.
+Exécutez `npm i` pour installer les dépendances et compiler le projet. Utilisez `npm run watch` pour recompiler lors de modifications.
 
-Create a `.env` file based on the `.env.sample` file.
+Créez un fichier `.env` basé sur le fichier `.env.sample`.
 
 ```bash
 cp .env.sample .env
 ```
 
-### Testing
+### Tests
 
-The MCP Inspector is very handy.
+L'Inspecteur MCP est très pratique.
 
 ```bash
 npm run inspector
 ```
 
-| Field          | Value           |
-| -------------- | --------------- |
-| Transport Type | `STDIO`         |
-| Command        | `node`          |
-| Arguments      | `dist/index.js` |
+| Champ             | Valeur          |
+| ----------------- | --------------- |
+| Type de Transport | `STDIO`         |
+| Commande          | `node`          |
+| Arguments         | `dist/index.js` |
 
-#### Testing in Claude Desktop
+#### Tests dans Claude Desktop
 
-Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config.json` to add an entry like the following, making sure to use the absolute path to your local `tiger-memory-mcp-server` project, and real database credentials.
+Créez/modifiez le fichier `~/Library/Application Support/Claude/claude_desktop_config.json` pour ajouter une entrée comme la suivante, en vous assurant d'utiliser le chemin absolu vers votre projet local `tiger-memory-mcp-server`, et de véritables identifiants de base de données.
 
 ```json
 {
@@ -48,7 +48,7 @@ Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config
     "tiger-memory": {
       "command": "node",
       "args": [
-        "/absolute/path/to/tiger-memory-mcp-server/dist/index.js",
+        "/chemin/absolu/vers/tiger-memory-mcp-server/dist/index.js",
         "stdio"
       ],
       "env": {
@@ -63,15 +63,15 @@ Create/edit the file `~/Library/Application Support/Claude/claude_desktop_config
 }
 ```
 
-## Deployment
+## Déploiement
 
-We use a Helm chart to deploy to Kubernetes. See the `chart/` directory for details.
+Nous utilisons un chart Helm pour déployer sur Kubernetes. Consultez le répertoire `chart/` pour plus de détails.
 
-The service is accessible to other services in the cluster via the DNS name `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
+Le service est accessible aux autres services du cluster via le nom DNS `tiger-memory-mcp-server.savannah-system.svc.cluster.local`.
 
-### Database setup
+### Configuration de la base de données
 
-Creating the database user:
+Création de l'utilisateur de base de données :
 
 ```sql
 CREATE USER tiger_memory WITH PASSWORD 'secret';
@@ -80,7 +80,7 @@ GRANT CREATE ON DATABASE tsdb TO tiger_memory;
 
 ### Secrets
 
-Run the following to create the necessary sealed secrets. Be sure to fill in the correct values.
+Exécutez les commandes suivantes pour créer les secrets scellés nécessaires. Assurez-vous de remplir les valeurs correctes.
 
 ```bash
 kubectl -n savannah-system create secret generic tiger-memory-mcp-server-database \
@@ -105,4 +105,4 @@ kubectl -n savannah-system create secret generic tiger-memory-mcp-server-tailsca
   -o yaml | kubeseal -o yaml
 ```
 
-Update `./chart/values/dev.yaml` with the output.
+Mettez à jour `./chart/values/dev.yaml` avec la sortie.
