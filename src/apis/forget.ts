@@ -4,14 +4,14 @@ import {
   StatusError,
 } from '@tigerdata/mcp-boilerplate';
 import { z } from 'zod';
-import { ServerContext, zScope } from '../types.js';
+import { ServerContext, zScopeInput } from '../types.js';
 
 const inputSchema = {
   id: z.coerce
     .string()
     .min(1)
-    .describe('The id of a specific memory to delete.'),
-  scope: zScope,
+    .describe('Required. The id of a specific memory to delete.'),
+  scope: zScopeInput,
 } as const;
 
 const outputSchema = {
