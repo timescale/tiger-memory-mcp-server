@@ -6,13 +6,17 @@ export interface ServerContext extends Record<string, unknown> {
   schema: string;
 }
 
-export const zSource = z
+const sourceDescription =
+  'The source or origin of this memory. A deep URI to the origin of the fact is preferred (e.g., a specific URL, file path, or reference).';
+
+export const zSource = z.string().min(0).nullable().describe(sourceDescription);
+
+/** Input-only variant of {@link zSource}: may be omitted or null. */
+export const zSourceInput = z
   .string()
   .min(0)
-  .nullable()
-  .describe(
-    'The source or origin of this memory. A deep URI to the origin of the fact is preferred (e.g., a specific URL, file path, or reference).',
-  );
+  .nullish()
+  .describe(`Optional. ${sourceDescription} Defaults to null.`);
 
 export const zMemory = z.object({
   id: z.string().describe('The unique identifier of this memory.'),
@@ -28,9 +32,10 @@ export const zMemory = z.object({
 
 export type Memory = z.infer<typeof zMemory>;
 
-export const zScope = z
-  .string()
-  .min(1)
-  .describe(
-    'A unique identifier for the target set of memories. Can be any combination of user, application, contextual ids, as needed for scoping and personalization.',
-  );
+const scopeDescription =
+  'A unique identifier for the target set of memories. Can be any combination of user, application, contextual ids, as needed for scoping and personalization.';
+
+export const zScope = z.string().min(1).describe(scopeDescription);
+
+/** Input-only variant of {@link zScope}. */
+export const zScopeInput = zScope.describe(`Required. ${scopeDescription}`);

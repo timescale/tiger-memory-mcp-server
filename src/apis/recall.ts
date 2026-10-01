@@ -1,9 +1,15 @@
 import { ApiFactory, InferSchema } from '@tigerdata/mcp-boilerplate';
 import { z } from 'zod';
-import { Memory, ServerContext, zScope, zMemory } from '../types.js';
+import {
+  Memory,
+  ServerContext,
+  zScope,
+  zScopeInput,
+  zMemory,
+} from '../types.js';
 
 const inputSchema = {
-  scope: zScope,
+  scope: zScopeInput,
 } as const;
 
 const outputSchema = {

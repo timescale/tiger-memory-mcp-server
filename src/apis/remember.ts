@@ -1,11 +1,11 @@
 import { ApiFactory, InferSchema } from '@tigerdata/mcp-boilerplate';
 import { z } from 'zod';
-import { ServerContext, zScope, zSource } from '../types.js';
+import { ServerContext, zScopeInput, zSourceInput } from '../types.js';
 
 const inputSchema = {
-  scope: zScope,
-  content: z.string().min(1).describe('The content to remember.'),
-  source: zSource,
+  scope: zScopeInput,
+  content: z.string().min(1).describe('Required. The content to remember.'),
+  source: zSourceInput,
 } as const;
 
 const outputSchema = {
